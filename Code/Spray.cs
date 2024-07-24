@@ -64,7 +64,8 @@ file class SprayRenderer : Renderer
 		if ( texture is null or { Width: <= 32, Height: <= 32 } )
 		{
 			// Probably an error texture. Replace with a fallback image.
-			texture = Texture.Load( FileSystem.Mounted, "materials/fallback.png" );
+			Components.Get<DecalRenderer>( FindMode.InChildren ).Material = Material.Load( "materials/fallback.vmat" );
+			return;
 		}
 
 		var material = Material.Load( "materials/spray.vmat" ).CreateCopy();
