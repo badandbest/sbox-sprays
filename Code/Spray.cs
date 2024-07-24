@@ -55,7 +55,7 @@ public static class Spray
 }
 
 [Title( "Spray Renderer" ), Icon( "imagesearch_roller" )]
-file class SprayRenderer : Renderer
+internal class SprayRenderer : Renderer
 {
 	[Property, ImageAssetPath]
 	public string Image { get; set; }

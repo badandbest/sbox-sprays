@@ -8,8 +8,8 @@
     "NetworkInterpolation": false,
     "Components": [
       {
-        "__type": "badandbest.Sprays.\u003CSpray\u003EF0753C05C02D39FD3B9D0D004FFCF312DA2960673DD33E8CD467FC1F9D8E8364F__SprayRenderer",
-        "__guid": "66fc83c4-c3ef-42e4-8fb3-9c8108e514c9"
+        "__type": "badandbest.Sprays.SprayRenderer",
+        "__guid": "5588cc15-d87c-4400-925c-f2dc5d60c42b"
       }
     ],
     "Children": [
