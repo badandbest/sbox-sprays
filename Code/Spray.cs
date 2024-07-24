@@ -4,12 +4,12 @@ using Sandbox.Utility;
 namespace badandbest.Sprays;
 
 /// <summary>
-/// A library to allow the placement of spray in the world
+/// A library to allow the placement of sprays in the world
 /// </summary>
 public static class Spray
 {
 	[ConVar( "spray", Help = "URL of image. Must be in quotes.", Saved = true )]
-	private static string ImageUrl { get; set; } = "materials/decals/default.png";
+	private static string ImageUrl { get; set; }
 
 	private static GameObject LocalSpray;
 
@@ -36,6 +36,9 @@ public static class Spray
 		if ( trace.Run() is not { Body.BodyType: PhysicsBodyType.Static } tr )
 			return;
 
+		if ( string.IsNullOrEmpty( ImageUrl ) )
+			ImageUrl = "materials/decals/default.png";
+
 		var config = new CloneConfig
 		{
 			Name = $"Spray - {Steam.PersonaName}",
@@ -59,7 +62,7 @@ file class SprayRenderer : Renderer
 
 	protected override async void OnEnabled()
 	{
-		var texture = await Texture.LoadAsync( null, Image, false );
+		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image, false );
 
 		if ( texture is null or { Width: <= 32, Height: <= 32 } )
 		{

@@ -4,7 +4,7 @@
   "Org": "badandbest",
   "Ident": "sprays",
   "Schema": 1,
-  "IncludeSourceFiles": false,
+  "IncludeSourceFiles": true,
   "Resources": null,
   "PackageReferences": [],
   "EditorReferences": null,
