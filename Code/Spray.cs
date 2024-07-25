@@ -8,10 +8,13 @@ namespace badandbest.Sprays;
 /// </summary>
 public static class Spray
 {
-	[ConVar( "spray", Help = "URL of image. Must be in quotes.", Saved = true )]
-	private static string ImageUrl { get; set; }
-
 	private static GameObject LocalSpray;
+	
+	[ConVar( "spray", Help = "URL of image. Must be in quotes.", Saved = true )]
+	internal static string Image { get; set; }
+	
+	[ConVar( "spraydisable", Help = "Disables player sprays. Good for streamers.", Saved = true )]
+	internal static bool Disabled { get; set; }
 
 	/// <summary>
 	/// Places an image on a surface.
@@ -36,14 +39,14 @@ public static class Spray
 		if ( trace.Run() is not { Body.BodyType: PhysicsBodyType.Static } tr )
 			return;
 
-		if ( string.IsNullOrEmpty( ImageUrl ) )
-			ImageUrl = "materials/decals/default.png";
+		if ( string.IsNullOrEmpty( Image ) )
+			Image = "materials/decals/default.png";
 
 		var config = new CloneConfig
 		{
 			Name = $"Spray - {Steam.PersonaName}",
 			Transform = new( tr.HitPosition, Rotation.LookAt( tr.Normal ) ),
-			PrefabVariables = new() { { "Image", ImageUrl } }
+			PrefabVariables = new() { { "Image", Image } }
 		};
 
 		LocalSpray?.Destroy();
@@ -62,18 +65,26 @@ internal class SprayRenderer : Renderer
 
 	protected override async void OnEnabled()
 	{
-		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image, false );
+		var decal = Components.Get<DecalRenderer>( FindMode.InChildren );
 
+		if ( Spray.Disabled )
+		{
+			decal.Enabled = false;
+			return;
+		}
+		
+		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image, false );
+		
 		if ( texture is null or { Width: <= 32, Height: <= 32 } )
 		{
 			// Probably an error texture. Replace with a fallback image.
-			Components.Get<DecalRenderer>( FindMode.InChildren ).Material = Material.Load( "materials/fallback.vmat" );
+			decal.Material = Material.Load( "materials/fallback.vmat" );
 			return;
 		}
 
 		var material = Material.Load( "materials/spray.vmat" ).CreateCopy();
 		material.Set( "g_tColor", texture );
 
-		Components.Get<DecalRenderer>( FindMode.InChildren ).Material = material;
+		decal.Material = material;
 	}
 }
