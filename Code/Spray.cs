@@ -1,5 +1,6 @@
 using Sandbox;
 using Sandbox.Utility;
+using System;
 
 namespace badandbest.Sprays;
 
@@ -9,10 +10,10 @@ namespace badandbest.Sprays;
 public static class Spray
 {
 	private static GameObject LocalSpray;
-	
+
 	[ConVar( "spray", Help = "URL of image. Must be in quotes.", Saved = true )]
 	internal static string Image { get; set; }
-	
+
 	[ConVar( "spraydisable", Help = "Disables player sprays. Good for streamers.", Saved = true )]
 	internal static bool Disabled { get; set; }
 
@@ -44,7 +45,7 @@ public static class Spray
 
 		var config = new CloneConfig
 		{
-			Name = $"Spray - {Steam.PersonaName}",
+			Name = $"Failed to load Spray - {Steam.PersonaName}",
 			Transform = new( tr.HitPosition, Rotation.LookAt( tr.Normal ) ),
 			PrefabVariables = new() { { "Image", Image } }
 		};
@@ -72,19 +73,29 @@ internal class SprayRenderer : Renderer
 			decal.Enabled = false;
 			return;
 		}
-		
-		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image, false );
-		
-		if ( texture is null or { Width: <= 32, Height: <= 32 } )
+
+		Texture texture = null;
+
+		try
 		{
-			// Probably an error texture. Replace with a fallback image.
-			decal.Material = Material.Load( "materials/fallback.vmat" );
-			return;
+			texture = await Texture.LoadAsync( FileSystem.Mounted, Image, false );
+			if ( texture is null or { Width: <= 32, Height: <= 32 } )
+			{
+				// Probably an error texture. Replace with a fallback image.
+				texture = await Texture.LoadAsync( FileSystem.Mounted, "materials/fallback.vtex" );
+			}
 		}
+		catch ( Exception e )
+		{
+			Log.Error( $"Couldn't Load Avatar {Image} {e}" );
+			throw;
+		}
+		finally
+		{
+			var material = Material.Load( "materials/spray.vmat" ).CreateCopy();
+			material.Set( "g_tColor", texture );
 
-		var material = Material.Load( "materials/spray.vmat" ).CreateCopy();
-		material.Set( "g_tColor", texture );
-
-		decal.Material = material;
+			decal.Material = material;
+		}
 	}
 }
