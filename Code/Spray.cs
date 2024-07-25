@@ -14,8 +14,19 @@ public static class Spray
 	[ConVar( "spray", Help = "URL of image. Must be in quotes.", Saved = true )]
 	internal static string Image { get; set; }
 
-	[ConVar( "spraydisable", Help = "Disables player sprays. Good for streamers.", Saved = true )]
+	[ConVar( "spraydisable", Help = "Disables player sprays. Good for streamers.", Saved = true ), Change]
 	internal static bool Disabled { get; set; }
+
+	/// <summary>
+	/// Toggles all existing sprays when <see cref="Disabled"/> changes.
+	/// </summary>
+	private static void OnDisabledChanged( bool _, bool disabled )
+	{
+		foreach ( var spray in Game.ActiveScene.Components.GetAll<SprayRenderer>( FindMode.InChildren ) )
+		{
+			spray.Enabled = !disabled;
+		}
+	}
 
 	/// <summary>
 	/// Places an image on a surface.
@@ -45,7 +56,7 @@ public static class Spray
 
 		var config = new CloneConfig
 		{
-			Name = $"Failed to load Spray - {Steam.PersonaName}",
+			Name = $"Spray - {Steam.PersonaName}",
 			Transform = new( tr.HitPosition, Rotation.LookAt( tr.Normal ) ),
 			PrefabVariables = new() { { "Image", Image } }
 		};
@@ -61,18 +72,15 @@ public static class Spray
 [Title( "Spray Renderer" ), Icon( "imagesearch_roller" )]
 internal class SprayRenderer : Renderer
 {
+	private DecalRenderer decal;
+
 	[Property, ImageAssetPath]
 	public string Image { get; set; }
 
-	protected override async void OnEnabled()
+	protected override async void OnAwake()
 	{
-		var decal = Components.Get<DecalRenderer>( FindMode.InChildren );
-
-		if ( Spray.Disabled )
-		{
-			decal.Enabled = false;
-			return;
-		}
+		decal = Components.Get<DecalRenderer>( FindMode.InChildren );
+		decal.Enabled = !Spray.Disabled;
 
 		Texture texture = null;
 
@@ -98,4 +106,8 @@ internal class SprayRenderer : Renderer
 			decal.Material = material;
 		}
 	}
+
+	protected override void OnEnabled() => decal.Enabled = true;
+
+	protected override void OnDisabled() => decal.Enabled = false;
 }
