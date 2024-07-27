@@ -13,7 +13,7 @@
     "Compiler": {
       "RootNamespace": "badandbest",
       "DefineConstants": "SANDBOX;ADDON;DEBUG",
-      "NoWarn": "1701;1702;1591;",
+      "NoWarn": "1701;1702;1591;0649;",
       "WarningsAsErrors": "",
       "Whitelist": true,
       "AssemblyReferences": [],

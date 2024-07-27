@@ -9,14 +9,26 @@
     "Components": [
       {
         "__type": "badandbest.Sprays.SprayRenderer",
-        "__guid": "5588cc15-d87c-4400-925c-f2dc5d60c42b"
+        "__guid": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
+        "_decal": {
+          "_type": "component",
+          "component_id": "1a7f4ae9-72cd-47fa-8bec-bcf94b065925",
+          "go": "1e0dcc8d-0faa-4e2c-9677-9759a0ac38eb",
+          "component_type": "DecalRenderer"
+        },
+        "_text": {
+          "_type": "component",
+          "component_id": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
+          "go": "d3d254ff-1c70-4b08-b96f-1bfd057363bb",
+          "component_type": "TextRenderer"
+        }
       }
     ],
     "Children": [
       {
         "__guid": "1e0dcc8d-0faa-4e2c-9677-9759a0ac38eb",
         "Flags": 0,
-        "Name": "offset",
+        "Name": "decal",
         "Position": "1,0,0",
         "Rotation": "-0.00000004371139,1,-0.00000004371139,0.000000000000001910685",
         "Enabled": true,
@@ -58,6 +70,28 @@
             "Volume": 1
           }
         ]
+      },
+      {
+        "__guid": "d3d254ff-1c70-4b08-b96f-1bfd057363bb",
+        "Flags": 0,
+        "Name": "text",
+        "Position": "1,0,0",
+        "Rotation": "0,0,1,-0.00000004371139",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "Sandbox.TextRenderer",
+            "__guid": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
+            "__enabled": false,
+            "Color": "0.2549,0.43922,0.90588,1",
+            "FontFamily": "Poppins",
+            "FontSize": 32,
+            "FontWeight": 800,
+            "Scale": 0.25,
+            "Text": "Mingebag",
+            "TextAlignment": "Center"
+          }
+        ]
       }
     ],
     "__variables": [
@@ -68,6 +102,16 @@
           {
             "Id": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
             "Property": "Image"
+          }
+        ]
+      },
+      {
+        "Id": "Remove",
+        "Title": "Remove",
+        "Targets": [
+          {
+            "Id": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
+            "Property": "Remove"
           }
         ]
       }
