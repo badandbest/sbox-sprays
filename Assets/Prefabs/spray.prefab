@@ -106,6 +106,16 @@
         ]
       },
       {
+        "Id": "Placer",
+        "Title": "Placer",
+        "Targets": [
+          {
+            "Id": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
+            "Property": "Text"
+          }
+        ]
+      },
+      {
         "Id": "Remove",
         "Title": "Remove",
         "Targets": [

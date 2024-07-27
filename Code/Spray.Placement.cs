@@ -36,9 +36,8 @@ public static partial class Spray
 			Transform = new Transform( tr.HitPosition, Rotation.LookAt( tr.Normal ) ),
 			PrefabVariables = new Dictionary<string, object>
 			{
-				{
-					"Image", Cookie.Get( "spray.url", "materials/decals/default.png" )
-				}
+				{ "Image", Cookie.Get( "spray.url", "materials/decals/default.png" ) },
+				{ "Placer", Steam.PersonaName },
 			}
 		};
 
