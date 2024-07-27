@@ -19,7 +19,7 @@ public static partial class Spray
 		try
 		{
 			var uri = new Uri( imageUrl );
-			var response = await Http.RequestAsync( uri.AbsoluteUri, "HEAD" );
+			var response = await Http.RequestAsync( uri.AbsoluteUri );
 			
 			if ( !response.Content.IsImage() )
 			{
