@@ -16,6 +16,8 @@ public static partial class Spray
 	[ConCmd( "spray", Help = "URL of image. Must be in quotes." )]
 	internal static async void SetImage( string imageUrl )
 	{
+		if ( Cookie.Get("spray.url", "") == url ) return;
+
 		try
 		{
 			var uri = new Uri( imageUrl );
