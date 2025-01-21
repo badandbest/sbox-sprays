@@ -15,7 +15,7 @@ public static partial class Spray
 		const float RANGE = 128;// Range in GMOD.
 
 		var ray = Game.ActiveScene.Camera.Transform.World.ForwardRay;
-		var trace = Game.SceneTrace.Ray( ray, RANGE );
+		var trace = Game.SceneTrace.Ray( ray, RANGE ).WithoutTags( "player" );
 
 		Place( trace );
 	}
@@ -26,18 +26,22 @@ public static partial class Spray
 	/// <param name="trace">The trace to use.</param>
 	public static void Place( SceneTrace trace )
 	{
+		SceneTraceResult tr = trace.Run();
 		// We only want to hit static bodies. ( maps, etc )
-		if ( trace.Run() is not { Body.BodyType: PhysicsBodyType.Static } tr )
-			return;
+		if ( !tr.Hit ) return;
 
+		Angles ang = tr.Normal.EulerAngles;
+	        if (tr.Normal.z == 1 || tr.Normal.z == -1){ // checks if it is a floor or a ceiling
+	            ang.yaw = tr.Direction.EulerAngles.yaw - 180;
+	        }
+		
 		var config = new CloneConfig
 		{
-			Name = $"Spray - {Steam.PersonaName}",
-			Transform = new Transform( tr.HitPosition, Rotation.LookAt( tr.Normal ) ),
+			Name = $"{Steam.PersonaName}'s Spray",
+			Transform = new Transform( tr.HitPosition, ang.ToRotation() ),
 			PrefabVariables = new Dictionary<string, object>
 			{
-				{ "Image", Cookie.Get( "spray.url", "materials/decals/default.png" ) },
-				{ "Placer", Steam.PersonaName },
+				{ "Image", Cookie.Get( "spray.url", "materials/decals/default.png" ) }
 			}
 		};
 
@@ -71,8 +75,13 @@ internal class SprayRenderer : Renderer
 	{
 		UpdateObject();
 
+	        _text.Text = Steam.PersonaName;
+	        _text.Color = "#FFFFFF";
+
 		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image );
 
+	        float AspectRatio = Math.Min(64f/texture.Width, 64f/texture.Height);
+	        _decal.Size = new Vector3( texture.Width*AspectRatio, texture.Height*AspectRatio, 1.1f);
 		_decal.Material = Material.Load( "materials/spray.vmat" ).CreateCopy();
 		_decal.Material.Set( "g_tColor", texture );
 	}
