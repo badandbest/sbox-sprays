@@ -9,7 +9,7 @@ public static partial class Spray
 	[ConVar( "spraydisable", Help = "Disables player sprays. Good for streamers.", Saved = true ), Change( "OnDirty" )]
 	internal static bool DisableRendering { get; set; }
 
-	private static void OnDirty()
+	private static void OnDirty( bool _, bool __ )
 	{
 		foreach ( var spray in Game.ActiveScene.GetAllComponents<SprayRenderer>() )
 		{
