@@ -8,8 +8,8 @@
     "NetworkInterpolation": false,
     "Components": [
       {
-        "__type": "badandbest.Sprays.SprayRenderer",
-        "__guid": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
+        "__type": "SprayRenderer",
+        "__guid": "09d6259c-ff3f-4bf7-9b2c-1cbec3c31f6e",
         "_decal": {
           "_type": "component",
           "component_id": "1a7f4ae9-72cd-47fa-8bec-bcf94b065925",
@@ -18,9 +18,22 @@
         },
         "_text": {
           "_type": "component",
-          "component_id": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
-          "go": "d3d254ff-1c70-4b08-b96f-1bfd057363bb",
+          "component_id": "2b1da4b9-df89-4156-b5ce-938d3957849e",
+          "go": "c64cbbe9-3bba-4ef5-a5ff-bb0bc557978a",
           "component_type": "TextRenderer"
+        },
+        "Image": null,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
         }
       }
     ],
@@ -40,39 +53,74 @@
             "CutoffAngleSoftness": 5,
             "Material": "materials/spray.vmat",
             "Mod2XBlending": false,
-            "Size": "64,64,32",
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "Size": "64,64,1.1",
             "TintColor": "1,1,1,1",
             "TriPlanar": false
           },
           {
             "__type": "Sandbox.SoundPointComponent",
             "__guid": "b00a9bdb-3ad3-4e57-bb59-2ba3394eeb3c",
+            "Distance": 512,
             "DistanceAttenuation": false,
             "DistanceAttenuationOverride": false,
+            "Falloff": [
+              {
+                "x": 0,
+                "y": 1,
+                "in": 3.1415927,
+                "out": -3.1415927,
+                "mode": "Mirrored"
+              },
+              {
+                "x": 1,
+                "y": 0,
+                "in": 0,
+                "out": 0,
+                "mode": "Mirrored"
+              }
+            ],
             "Force2d": false,
             "MaxRepeatTime": 1,
             "MinRepeatTime": 1,
             "Occlusion": false,
             "OcclusionOverride": false,
             "OcclusionRadius": 32,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
             "Pitch": 1,
             "PlayOnStart": true,
             "ReflectionOverride": false,
             "Reflections": false,
             "Repeat": false,
             "SoundEvent": "sounds/spraycan.paint.sound",
-            "SoundOverride": false,
+            "SoundOverride": true,
             "StopOnNew": false,
             "TargetMixer": {
               "Name": "game",
               "Id": "5a600970-8479-43d1-b997-e08e5e7b5b65"
             },
-            "Volume": 1
+            "Volume": 0.5
           }
         ]
       },
       {
-        "__guid": "d3d254ff-1c70-4b08-b96f-1bfd057363bb",
+        "__guid": "c64cbbe9-3bba-4ef5-a5ff-bb0bc557978a",
         "Flags": 0,
         "Name": "text",
         "Position": "1,0,0",
@@ -81,15 +129,57 @@
         "Components": [
           {
             "__type": "Sandbox.TextRenderer",
-            "__guid": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
+            "__guid": "2b1da4b9-df89-4156-b5ce-938d3957849e",
+            "__version": 1,
             "__enabled": false,
-            "Color": "0.2549,0.43922,0.90588,1",
-            "FontFamily": "Poppins",
-            "FontSize": 32,
-            "FontWeight": 800,
+            "BlendMode": "Normal",
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
             "Scale": 0.25,
-            "Text": "Mingebag",
-            "TextAlignment": "Center"
+            "TextAlignment": "Center",
+            "TextScope": {
+              "Text": "",
+              "TextColor": "0.2549,0.43922,0.90588,1",
+              "FontName": "Poppins",
+              "FontSize": 32,
+              "FontWeight": 800,
+              "FontItalic": false,
+              "LineHeight": 1,
+              "LetterSpacing": 0,
+              "WordSpacing": 0,
+              "Outline": {
+                "Enabled": false,
+                "Size": 4,
+                "Color": "0,0,1,1"
+              },
+              "Shadow": {
+                "Enabled": false,
+                "Size": 4,
+                "Color": "0,0,0,1",
+                "Offset": "4,4"
+              },
+              "OutlineUnder": {
+                "Enabled": false,
+                "Size": 4,
+                "Color": "0,1,0,1"
+              },
+              "ShadowUnder": {
+                "Enabled": false,
+                "Size": 4,
+                "Color": "0,0,0,1",
+                "Offset": "4,4"
+              }
+            }
           }
         ]
       }
@@ -98,38 +188,45 @@
       {
         "Id": "Image",
         "Title": "Image",
+        "Description": null,
+        "Group": null,
+        "Order": 0,
         "Targets": [
           {
-            "Id": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
+            "Id": "09d6259c-ff3f-4bf7-9b2c-1cbec3c31f6e",
             "Property": "Image"
           }
         ]
-      },
-      {
-        "Id": "Placer",
-        "Title": "Placer",
-        "Targets": [
-          {
-            "Id": "0cc392d7-6c59-4ea2-9dd8-357f4ff3e928",
-            "Property": "Text"
-          }
-        ]
-      },
-      {
-        "Id": "Remove",
-        "Title": "Remove",
-        "Targets": [
-          {
-            "Id": "5588cc15-d87c-4400-925c-f2dc5d60c42b",
-            "Property": "Remove"
-          }
-        ]
       }
-    ]
+    ],
+    "__properties": {
+      "FixedUpdateFrequency": 50,
+      "MaxFixedUpdates": 5,
+      "NetworkFrequency": 30,
+      "NetworkInterpolation": false,
+      "PhysicsSubSteps": 1,
+      "ThreadedAnimation": true,
+      "TimeScale": 1,
+      "UseFixedUpdate": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    }
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "DontBreakAsTemplate": false,
   "ResourceVersion": 1,
   "__references": [],
   "__version": 1
