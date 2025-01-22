@@ -1,5 +1,5 @@
 using Sandbox;
-using Sandbox.Utility;
+using System;
 using System.Collections.Generic;
 namespace badandbest.Sprays;
 
@@ -37,7 +37,7 @@ public static partial class Spray
 		
 		var config = new CloneConfig
 		{
-			Name = $"{Steam.PersonaName}'s Spray",
+			Name = $"Spray - {Steam.PersonaName}",
 			Transform = new Transform( tr.HitPosition, ang.ToRotation() ),
 			PrefabVariables = new Dictionary<string, object>
 			{
@@ -50,6 +50,7 @@ public static partial class Spray
 
 		LocalSpray.NetworkSpawn(); // NetworkSpawn breaks the prefab
 		LocalSpray.SetPrefabSource( "prefabs/spray.prefab" );
+		LocalSpray.SetParent( tr.GameObject );
 	}
 }
 
@@ -80,7 +81,7 @@ internal class SprayRenderer : Renderer
 
 		var texture = await Texture.LoadAsync( FileSystem.Mounted, Image );
 
-	        float AspectRatio = Math.Min(64f/texture.Width, 64f/texture.Height);
+	        float AspectRatio = Math.Min( 64f/texture.Width, 64f/texture.Height );
 	        _decal.Size = new Vector3( texture.Width*AspectRatio, texture.Height*AspectRatio, 1.1f);
 		_decal.Material = Material.Load( "materials/spray.vmat" ).CreateCopy();
 		_decal.Material.Set( "g_tColor", texture );
